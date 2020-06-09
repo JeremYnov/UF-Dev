@@ -1,28 +1,8 @@
 import pygame 
+from classes.game import Game
 
 pygame.init()
 
-# Creation d'une classe game
-class Game:
-
-    def __init__(self):
-        # generer notre hero
-        self.player = Player()
-
-# creation du hero
-class Player(pygame.sprite.Sprite):
-
-    def __init__(self):
-        super().__init__()
-        self.health = 100
-        self.max_health = 100
-        self.attack = 10
-        self.velocity = 5
-        self.image = pygame.image.load('assets/player.png')
-        self.rect = self.image.get_rect()
-        # Position du personnage Léo (mets en commentaire ma partie quand tu fera bisous)
-        self.rect.x = 370
-        self.rect.y = 420
 
 # Génération de notre fenêtre de jeu 
 pygame.display.set_caption("UF DEV")
@@ -44,8 +24,27 @@ while running:
     # Appliquer le background de l'appli 
     screen.blit(background,(0,-280))
 
-    #Aplliquer l'image du hero
-    screen.blit(game.player.image, game.player.rect)
+    # Appliquer l'image du joueur
+    screen.blit(game.shooter.image, game.shooter.rect)
+
+    for bullet in game.shooter.allBullet:
+        bullet.move()
+
+    # Appliquer l'image des balles
+    game.shooter.allBullet.draw(screen)
+
+    if game.pressed.get(pygame.K_LEFT):
+        if(game.shooter.rect.x < -100):
+            game.shooter.rect.x = 1000
+            game.shooter.move_left()
+        else:
+            game.shooter.move_left()
+    elif game.pressed.get(pygame.K_RIGHT):
+        if(game.shooter.rect.x > 1000):
+            game.shooter.rect.x = -100
+            game.shooter.move_right()
+        else:
+            game.shooter.move_right()
 
     # Mettre à jour la fenêtre
     pygame.display.flip()
@@ -56,3 +55,10 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
+        # Détecter les déplacements du joueur 
+        elif event.type == pygame.KEYDOWN:
+            game.pressed[event.key] = True
+            if event.key == pygame.K_SPACE:
+                game.shooter.shoot()
+        elif event.type == pygame.KEYUP:
+            game.pressed[event.key] = False
