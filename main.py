@@ -21,13 +21,13 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('assets/player.png')
         self.rect = self.image.get_rect()
         # Position du personnage Léo (mets en commentaire ma partie quand tu fera bisous)
-        self.rect.x = 250
+        self.rect.x = 370
         self.rect.y = 420
 
 # Génération de notre fenêtre de jeu 
 pygame.display.set_caption("UF DEV")
 # Taille de l'écran Léo (tu mettras en commentaire egalement gros bg)
-screen = pygame.display.set_mode((680,620))
+screen = pygame.display.set_mode((980,620))
 
 
 # Import du background de l'appli 
