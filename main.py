@@ -7,7 +7,7 @@ pygame.init()
 # Génération de notre fenêtre de jeu 
 pygame.display.set_caption("UF DEV")
 # Taille de l'écran Léo (tu mettras en commentaire egalement gros bg)
-screen = pygame.display.set_mode((980,620))
+screen = pygame.display.set_mode((980,850))
 
 
 # Import du background de l'appli 
@@ -22,7 +22,7 @@ running = True
 # Boucle qui nous permet de garder le jeu allumé 
 while running:
     # Appliquer le background de l'appli 
-    screen.blit(background,(0,-280))
+    screen.blit(background,(-1100,-100))
 
     # Appliquer l'image du joueur
     screen.blit(game.shooter.image, game.shooter.rect)

@@ -30,6 +30,12 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.y -= self.velocity
         self.rotate()
 
+        # Vérifier si la balle entre en collision avec un monstre
+        for enemy in self.shooter.game.checkCollision(self, self.shooter.game.allEnemies)  :
+            self.remove()
+            # infliger les dégats 
+            enemy.damage(self.shooter.attack)
+
         # Vérifier si le projectile n'est plus présent sur l'écran 
         if self.rect.y < 5:
             self.remove()
