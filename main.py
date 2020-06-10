@@ -27,11 +27,19 @@ while running:
     # Appliquer l'image du joueur
     screen.blit(game.shooter.image, game.shooter.rect)
 
+    # Réccupération des balles tirées par le joueur
     for bullet in game.shooter.allBullet:
         bullet.move()
 
+    # Réccupérations des enemies
+    for enemy in game.allEnemies:
+        enemy.down()
+
     # Appliquer l'image des balles
     game.shooter.allBullet.draw(screen)
+
+    # Appliquer l'image des énemies
+    game.allEnemies.draw(screen)
 
     if game.pressed.get(pygame.K_LEFT):
         if(game.shooter.rect.x < -100):

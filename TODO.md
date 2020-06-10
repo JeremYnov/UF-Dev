@@ -1,6 +1,6 @@
-1. Créer l'architecture du projet (1 fichier assets,....)
-2. Créer les class (Ball, Brick, Shooter)
-*. Créer les instructions d'utilisation du logiciel
+1. Créer l'architecture du projet (1 fichier assets,....) FAIT
+2. Créer les class (Ball, Brick, Shooter) FAIT
+*. Créer les instructions d'utilisation du logiciel 
 
 
 
@@ -29,3 +29,12 @@ Shooter :
 
 Principal : 
 1. Background Image
+
+
+MENU :
+Principal : 
+1. Bouton qui lance le jeu
+2. Bouton qui lance une page boutique
+3. Bouton qui redirige vers la page d'intruction 
+4. Bouton qui ferme le jeu
+
