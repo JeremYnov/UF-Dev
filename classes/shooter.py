@@ -21,7 +21,8 @@ class Shooter(pygame.sprite.Sprite):
             self.rect.x += self.movementSpeed
 
     def move_left(self):
-        self.rect.x -= self.movementSpeed  
+        if not self.game.checkCollision(self, self.game.allEnemies):
+            self.rect.x -= self.movementSpeed  
 
     def shoot(self):
         # Création d'une instance de la classe bullet

@@ -10,7 +10,6 @@ class Enemy(pygame.sprite.Sprite):
         self.allEnemies = game.allEnemies
         self.health = 2
         self.maxHealth = 2
-        self.special = 0
         self.image = pygame.image.load('./assets/secoupe.png')
         self.image = pygame.transform.scale(self.image,(100,100))
         self.rect = self.image.get_rect()
@@ -29,8 +28,6 @@ class Enemy(pygame.sprite.Sprite):
         self.health -= amount
         # Vérifier si l'enemie est mort 
         if self.health <= 0:
-             
-
             # Suppression de l'entité
             self.rect.x = random.randint(50, 950)
             # print(self.rect.x)
