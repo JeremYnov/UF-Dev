@@ -1,5 +1,6 @@
 import pygame
 from classes.bullet import Bullet
+
 # Cette classe représente notre joueur
 class Shooter(pygame.sprite.Sprite):
     def __init__(self, game):
