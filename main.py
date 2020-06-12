@@ -1,6 +1,8 @@
 import pygame
 import math
+from game_over import game_over
 from settings import settings
+
 
 
 from classes.game import Game
@@ -21,6 +23,7 @@ middleScreenHeight = screenHeight / 2
 # Variable contenant la font que nous utiliserons ainsi que sa taille  
 titleFont = pygame.font.SysFont('lunchtimedoublysoregular', 30)
 font = pygame.font.SysFont('lunchtimedoublysoregular', 20)
+fontgo = pygame.font.SysFont('lunchtimedoublysoregular', 80)
 
 # Fonction permettant d'ajouter du texte sur la fenêtre de jeu 
 def draw_text(text, font, color, surface, x, y):
@@ -148,6 +151,9 @@ def game():
             else:
                 game.shooter.move_right()
 
+        if game.shooter.health <= 0 :
+            fin()
+
         # On parcours la liste d'evenement 
         for event in pygame.event.get():
             # Si le joueur lance l'evenement quitter alors on coupe notre boucle
@@ -176,7 +182,7 @@ def instructions():
     while running:
         settings.screen.fill((0,0,0))
  
-        draw_text('Options', titleFont, (255, 255, 255), settings.screen, 20, 20)
+        draw_text('Options', titleFont(), (255, 255, 255), settings.screen, 20, 20)
         draw_text('Bonjour jeune aventurier des temps modernes et bienvenu sur notre jeu.', font, (255, 255, 255), settings.screen, 20, 70)
         draw_text("Tout d'abord voici la liste des commandes que tu dois connaitre :", font, (255, 255, 255), settings.screen, 20, 95)
         draw_text("Se deplacer vers la droite : Fleche de droite ", font, (255, 255, 255), settings.screen, 20, 140)
@@ -193,5 +199,26 @@ def instructions():
        
         pygame.display.flip()
         mainClock.tick(60)
- 
+
+def fin():
+    running = True
+    while running:
+        game_over.screen.fill((0,0,0))
+
+        draw_text('GAME OVER', fontgo, (255, 0, 0), game_over.screen, 350, 200)
+        draw_text("Tu t'es battu de toutes tes forces,", font, (255, 255, 255), game_over.screen, 410, 300)
+        draw_text("mais cela n'a pas suffit.", font, (255, 255, 255), game_over.screen, 410, 350)
+        draw_text("Tu peux toujours retanter ta chance", font, (255, 255, 255), game_over.screen, 410, 400)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False 
+
+        pygame.display.flip()
+        mainClock.tick(60)
+
+
 main_menu()
