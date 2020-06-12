@@ -1,4 +1,5 @@
 import pygame
+
 from classes.bullet import Bullet
 
 # Cette classe représente notre joueur
@@ -22,11 +23,11 @@ class Shooter(pygame.sprite.Sprite):
 
     def move_left(self):
         if not self.game.checkCollision(self, self.game.allEnemies):
-            self.rect.x -= self.movementSpeed  
-
+            self.rect.x -= self.movementSpeed
+    
     def shoot(self):
-        # Création d'une instance de la classe bullet
-        self.allBullet.add(Bullet(self))   
+    # Création d'une instance de la classe bullet
+        self.allBullet.add(Bullet(self))  
 
     def die(self):
         if self.health <= 0 : 

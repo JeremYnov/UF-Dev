@@ -1,5 +1,6 @@
 import pygame
 
+
 # Définition de la classe qui gère les balles tirées par le joueur
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, shooter):
