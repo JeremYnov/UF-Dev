@@ -7,6 +7,9 @@ from classes.game import Game
 
 mainClock = pygame.time.Clock()
 pygame.init()
+pygame.mixer.init()
+pygame.mixer.music.load("assets/music/game_music.mp3")
+pygame.mixer.music.set_volume(0.1)
 
 screenWidth = pygame.display.get_surface().get_width()
 screenHeight= pygame.display.get_surface().get_height()
@@ -30,23 +33,26 @@ def draw_text(text, font, color, surface, x, y):
 # running = True 
 
 # Génération de notre fenêtre de jeu 
-pygame.display.set_caption("UF DEV")
+pygame.display.set_caption("UFO Abduction")
+pygame.display.set_icon(settings.icon)
 
 
 
 def main_menu():
     while True:
         click = pygame.mouse.get_pressed()
-        settings.screen.fill((0,0,0))
-        draw_text('Menu Principal', titleFont, (255, 255, 255), settings.screen, 400, 20)
+        
+        settings.screen.blit(settings.menuBackground,(0,0))
+        # settings.screen.fill((0,0,0))
+        draw_text('Menu Principal', titleFont, (255, 255, 255), settings.screen, 390, 20)
  
         mx, my = pygame.mouse.get_pos()
 
-        button_1 = pygame.Rect(50, 100, 295, 50)
+        button_1 = pygame.Rect(360, 170, 295, 50)
         
-        button_2 = pygame.Rect(50, 200, 295, 50)
+        button_2 = pygame.Rect(360, 270, 295, 50)
 
-        button_3 = pygame.Rect(50, 300, 295, 50)
+        button_3 = pygame.Rect(360, 370, 295, 50)
         
         if button_1.collidepoint((mx, my)):
             if click[0] == 1:
@@ -60,9 +66,9 @@ def main_menu():
         pygame.draw.rect(settings.screen, (255, 0, 0), button_1)
         pygame.draw.rect(settings.screen, (255, 0, 0), button_2)
         pygame.draw.rect(settings.screen, (255, 0, 0), button_3)
-        draw_text('Lancer la partie', titleFont, (255, 255, 255),settings.screen, 60, 110)
-        draw_text('Options', titleFont, (255, 255, 255),settings.screen, 60, 210)
-        draw_text('Instructions', titleFont, (255, 255, 255),settings.screen, 60, 310)
+        draw_text('Lancer la partie', titleFont, (255, 255, 255),settings.screen, 370, 180)
+        draw_text('Options', titleFont, (255, 255, 255),settings.screen, 370, 280)
+        draw_text('Instructions', titleFont, (255, 255, 255),settings.screen, 370, 380)
  
         click = False
         for event in pygame.event.get():
@@ -82,6 +88,7 @@ def main_menu():
 
 
 def game():
+    pygame.mixer.music.play()
     running = True
 
     # Charger le jeu
@@ -90,12 +97,17 @@ def game():
 
     # Boucle qui nous permet de garder le jeu allumé 
     while running:
-        
+
         # Appliquer le background de l'appli 
-        settings.screen.blit(settings.background,(-1100,-100))
+        settings.screen.blit(settings.gameBackground,(-1100,-100))
 
         # Appliquer le score du joueur en haut à gauche 
         draw_text('SCORE : '+ str(game.score), titleFont, (255, 255, 255), settings.screen, 20, 20)
+
+        # Afficher les caractéristiques du joueur
+        draw_text('Speed : '+ str(game.shooter.movementSpeed), font, (255, 255, 255), settings.screen, 820, 20)
+        draw_text('Attack : '+ str(game.shooter.attack), font, (255, 255, 255), settings.screen, 820, 50)
+        draw_text('Bullet Velocity : '+ str(game.shooter.bullet.velocity), font, (255, 255, 255), settings.screen, 720, 80)
 
         # Appliquer l'image du joueur
         settings.screen.blit(game.shooter.image, game.shooter.rect)

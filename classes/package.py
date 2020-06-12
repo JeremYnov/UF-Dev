@@ -37,16 +37,17 @@ class Package(pygame.sprite.Sprite):
                 self.game.shooter.attack += 1
                 print("ATTACK +1")
             elif self.special == 6 :
-                self.game.shooter.movementSpeed -= 1
-                print("SPEED -1")
+                if self.game.shooter.movementSpeed > 2 :
+                    self.game.shooter.movementSpeed -= 1
+                    print("SPEED -1")
             elif self.special == 9 :
-                self.game.shooter.attack -= 0.1
-                print("ATTACK -0.1")
-            # print("ATTACK  = " + str(self.game.shooter.attack))
+                if self.game.shooter.attack > 0.5:
+                    self.game.shooter.attack -= 0.1
+                    print("ATTACK -0.1")
+            elif self.special >= 0  :
+                self.game.shooter.bullet.velocity += 1 
+                print("BULLET VELOCITY  = " + str(self.game.shooter.bullet.velocity))
             self.special = random.randint(0,9)
-            print(self.special)
-            print("ATTACK  = " + str(self.game.shooter.attack))
-            print("SPEED = " + str(self.game.shooter.movementSpeed))
             # Suppression de l'entité
             self.rect.x = random.randint(50, 950)
             # print(self.rect.x)

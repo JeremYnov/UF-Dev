@@ -7,7 +7,6 @@ class Shooter(pygame.sprite.Sprite):
         super().__init__()
         self.game = game
         self.health = 1
-        self.shootingSpeed = 100
         self.attack = 1
         self.allBullet = pygame.sprite.Group()
         self.movementSpeed = 3
@@ -15,6 +14,7 @@ class Shooter(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 370
         self.rect.y = 600
+        self.bullet = Bullet(self)
 
     def move_right(self):
         if not self.game.checkCollision(self, self.game.allEnemies):
