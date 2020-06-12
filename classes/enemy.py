@@ -28,6 +28,11 @@ class Enemy(pygame.sprite.Sprite):
         self.health -= amount
         # Vérifier si l'enemie est mort 
         if self.health <= 0:
+            choiceMonster = random.randint(0,2)
+            print("CHOICE MONSTER = "+ str(choiceMonster))
+            if choiceMonster == 1:
+                secondMonster = pygame.image.load('./assets/flying_monster.png')
+                self.image = pygame.transform.scale(secondMonster,(90,90))
             # Suppression de l'entité
             self.rect.x = random.randint(50, 950)
             # print(self.rect.x)

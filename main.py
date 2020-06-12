@@ -10,7 +10,7 @@ mainClock = pygame.time.Clock()
 pygame.init()
 pygame.mixer.init()
 pygame.mixer.music.load("assets/music/game_music.mp3")
-pygame.mixer.music.set_volume(0.1)
+pygame.mixer.music.set_volume(0.03)
 
 screenWidth = pygame.display.get_surface().get_width()
 screenHeight= pygame.display.get_surface().get_height()
@@ -90,7 +90,7 @@ def main_menu():
 
 
 def game():
-    pygame.mixer.music.play()
+    pygame.mixer.music.play(-1)
     running = True
 
     # Charger le jeu
@@ -106,10 +106,14 @@ def game():
         # Appliquer le score du joueur en haut à gauche 
         draw_text('SCORE : '+ str(game.score), titleFont, (255, 255, 255), settings.screen, 20, 20)
 
+        # if game.score >= 10 :
+        #     secondMonster = pygame.image.load('./assets/flying_monster.png')
+        #     game.enemy.image = pygame.transform.scale(secondMonster,(90,90))
+
         # Afficher les caractéristiques du joueur
         draw_text('Speed : '+ str(game.shooter.movementSpeed), font, (255, 255, 255), settings.screen, 820, 20)
         draw_text('Attack : '+ str(game.shooter.attack), font, (255, 255, 255), settings.screen, 820, 50)
-        draw_text('Bullet Velocity : '+ str(game.shooter.bullet.velocity), font, (255, 255, 255), settings.screen, 720, 80)
+        # draw_text('Bullet Velocity : '+ str(game.shooter.bullet.velocity), font, (255, 255, 255), settings.screen, 720, 80)
 
         # Appliquer l'image du joueur
         settings.screen.blit(game.shooter.image, game.shooter.rect)
@@ -200,6 +204,9 @@ def instructions():
         mainClock.tick(60)
 
 def game_over():
+    gameOverSound = pygame.mixer.Sound("assets/sounds/game_over.ogg")
+    gameOverSound.set_volume(0.1)
+    gameOverSound.play()
     running = True
     while running:
         click = pygame.mouse.get_pressed()
