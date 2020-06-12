@@ -1,6 +1,5 @@
 import pygame
 import math
-from game_over import game_over
 from settings import settings
 
 
@@ -152,7 +151,7 @@ def game():
                 game.shooter.move_right()
 
         if game.shooter.health <= 0 :
-            fin()
+            game_over()
 
         # On parcours la liste d'evenement 
         for event in pygame.event.get():
@@ -200,15 +199,28 @@ def instructions():
         pygame.display.flip()
         mainClock.tick(60)
 
-def fin():
+def game_over():
     running = True
     while running:
-        game_over.screen.fill((0,0,0))
+        click = pygame.mouse.get_pressed()
 
-        draw_text('GAME OVER', fontgo, (255, 0, 0), game_over.screen, 350, 200)
-        draw_text("Tu t'es battu de toutes tes forces,", font, (255, 255, 255), game_over.screen, 410, 300)
-        draw_text("mais cela n'a pas suffit.", font, (255, 255, 255), game_over.screen, 410, 350)
-        draw_text("Tu peux toujours retanter ta chance", font, (255, 255, 255), game_over.screen, 410, 400)
+        settings.screen.blit(settings.gameOverBackground,(0,0))
+        # settings.screen.fill((0,0,0))
+
+        draw_text('GAME OVER', fontgo, (255, 0, 0), settings.screen, 300, 200)
+        draw_text("Tu t'es battu de toutes tes forces,", font, (255, 255, 255), settings.screen, 310, 300)
+        draw_text("mais cela n'a pas suffit.", font, (255, 255, 255), settings.screen, 310, 350)
+        draw_text("Tu peux toujours retenter ta chance", font, (255, 255, 255), settings.screen, 310, 400)
+
+        mx, my = pygame.mouse.get_pos()
+
+        button_1 = pygame.Rect(360, 570, 295, 50)
+        
+        if button_1.collidepoint((mx, my)):
+            if click[0] == 1:
+                game()
+        pygame.draw.rect(settings.screen, (255, 0, 0), button_1)
+        draw_text('Reessayer', titleFont, (255, 255, 255),settings.screen, 435, 580)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

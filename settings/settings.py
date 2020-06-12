@@ -10,6 +10,10 @@ gameBackground = pygame.image.load('assets/backgrounds/bg.jpg')
 menuBackground = pygame.image.load('assets/backgrounds/menu_bg.jpg')
 menuBackground = pygame.transform.scale(menuBackground, (windowHeight, windowWidth))
 
+# Import du background de l'écran de game over
+gameOverBackground = pygame.image.load('assets/backgrounds/game_over_bg.jpg')
+gameOverBackground = pygame.transform.scale(gameOverBackground, (windowHeight, windowWidth))
+
 
 # Taille de l'écran
 screen = pygame.display.set_mode((windowHeight,windowWidth))
