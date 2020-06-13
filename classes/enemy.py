@@ -14,6 +14,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image,(100,100))
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(50, 900)
+        self.rect.y = -100
         self.speed = 1
 
     def down(self):
@@ -22,6 +23,9 @@ class Enemy(pygame.sprite.Sprite):
             self.game.shooter.die()
         else : 
             self.rect.y += self.speed
+
+    def remove(self):
+        self.game.allEnemies.remove(self) 
 
     def damage(self, amount):
         # Infliger les dégâts
@@ -33,13 +37,24 @@ class Enemy(pygame.sprite.Sprite):
             if choiceMonster == 1:
                 secondMonster = pygame.image.load('./assets/flying_monster.png')
                 self.image = pygame.transform.scale(secondMonster,(90,90))
+            
             # Suppression de l'entité
-            self.rect.x = random.randint(50, 950)
-            # print(self.rect.x)
+            self.rect.x = random.randint(50, 900)
             self.rect.y = -100
+
             self.game.score += 1
+
+            # Boost d'un monstre lorsque le joueur atteint le score 50
+            if self.game.score == 50 :
+                self.speed += 1
+            elif self.game.score == 100: 
+                self.speed += 1
+            
             print("SCORE : " + str(self.game.score))
             if len(self.allEnemies) < 8:
-                self.game.spawnEnemy()  
+                self.game.spawnEnemy()
+            else :
+                self.remove()
+                self.game.spawnEnemy()
 
             self.health = self.maxHealth

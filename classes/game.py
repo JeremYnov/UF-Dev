@@ -23,17 +23,24 @@ class Game:
 
         self.pressed = {}
         self.spawnEnemy()
-        self.spawnPackage()
+        # self.spawnPackage()
 
     # Fonction qui gère le spawn des énemies
     def spawnEnemy(self):
         enemy = Enemy(self)
-        self.allEnemies.add(enemy)
+        package = Package(self)
+        choiceEnemy = random.randint(1,10)
+        print('CHOICE ENEMY =' + str(choiceEnemy))
+        if choiceEnemy >= 0 and choiceEnemy <= 7:
+            self.allEnemies.add(enemy)
+        elif choiceEnemy > 7 and choiceEnemy <= 10:
+            self.allPackages.add(package)
+
         # print(len(self.allEnemies))
 
-    def spawnPackage(self):
-        package = Package(self)
-        self.allPackages.add(package)
+    # def spawnPackage(self):
+    #     package = Package(self)
+    #     self.allPackages.add(package)
 
     def checkCollision(self, sprite, group):
         # Nous définissons les collisions, pour tuer le joueur à la collision remplacer False par True

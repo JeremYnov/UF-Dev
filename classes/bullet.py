@@ -7,7 +7,7 @@ class Bullet(pygame.sprite.Sprite):
         super().__init__()
         
         self.shooter = shooter
-        self.velocity = 4
+        self.velocity = 20
         self.image = pygame.image.load('./assets/projectile.png')
         self.image = pygame.transform.scale(self.image,(30,30))
         self.rect = self.image.get_rect()

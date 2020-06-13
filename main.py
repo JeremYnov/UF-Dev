@@ -113,23 +113,19 @@ def game():
         # Afficher les caractéristiques du joueur
         draw_text('Speed : '+ str(game.shooter.movementSpeed), font, (255, 255, 255), settings.screen, 820, 20)
         draw_text('Attack : '+ str(game.shooter.attack), font, (255, 255, 255), settings.screen, 820, 50)
-        # draw_text('Bullet Velocity : '+ str(game.shooter.bullet.velocity), font, (255, 255, 255), settings.screen, 720, 80)
 
         # Appliquer l'image du joueur
         settings.screen.blit(game.shooter.image, game.shooter.rect)
 
         # Réccupération des balles tirées par le joueur
         for bullet in game.shooter.allBullet:
-            # print("ENTREE DANS LA BOUCLE FOR BULLET")
             bullet.move()
 
         # Réccupérations des enemies
         for enemy in game.allEnemies:
-            # print("ENTREE DANS LA BOUCLE ENEMIES")
             enemy.down()
 
         for package in game.allPackages:
-            # print("ENTREE DANS LA BOUCLE PACKAGES")
             package.down()
 
         # Appliquer l'image des balles
@@ -166,7 +162,6 @@ def game():
             elif event.type == pygame.KEYDOWN:
                 # Détecter les déplacements du joueur 
                 game.pressed[event.key] = True
-                # print("TEST KEYDOWN")
                 if event.key == pygame.K_SPACE:
                     game.shooter.shoot()
                 elif event.key == pygame.K_ESCAPE:

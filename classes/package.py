@@ -9,11 +9,13 @@ class Package(pygame.sprite.Sprite):
         self.allPackages = game.allPackages
         self.health = 1
         self.maxHealth = 1
+        self.allEnemies = game.allEnemies
         self.special = random.randint(0,10)
         self.image = pygame.image.load('./assets/airdrop.png')
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(50, 900)
+        self.rect.y = -100
         self.speed = 1
 
     def remove(self):
@@ -48,13 +50,16 @@ class Package(pygame.sprite.Sprite):
             #     self.game.shooter.bullet.velocity += 1 
             #     print("BULLET VELOCITY  = " + str(self.game.shooter.bullet.velocity))
             self.special = random.randint(0,9)
+
             # Suppression de l'entité
-            self.rect.x = random.randint(50, 950)
-            # print(self.rect.x)
+            # self.rect.x = random.randint(50, 950)
+            
+            self.remove()
             self.rect.y = -100
-            self.game.score += 1
+            # self.game.score += 1
             print("SCORE : " + str(self.game.score))
-            # if len(self.allEnemies) < 8:
-            #     self.game.spawnEnemy()  
+            if len(self.allEnemies) < 8:
+                self.game.spawnEnemy()  
+            
 
             self.health = self.maxHealth        
