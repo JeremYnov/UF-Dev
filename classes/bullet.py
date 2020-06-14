@@ -5,7 +5,6 @@ import pygame
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, shooter):
         super().__init__()
-        
         self.shooter = shooter
         self.velocity = 20
         self.image = pygame.image.load('./assets/projectile.png')
@@ -35,13 +34,13 @@ class Bullet(pygame.sprite.Sprite):
         # Vérifier si la balle entre en collision avec un monstre
         for enemy in self.shooter.game.checkCollision(self, self.shooter.game.allEnemies)  :
             self.remove()
-            # infliger les dégats 
+            # Infliger les dégats 
             enemy.damage(self.shooter.attack)
 
         # Vérifier si la balle entre en collision avec un package
         for package in self.shooter.game.checkCollision(self, self.shooter.game.allPackages)  :
             self.remove()
-            # infliger les dégats 
+            # Infliger les dégats 
             package.damage(self.shooter.attack)    
 
         # Vérifier si le projectile n'est plus présent sur l'écran 

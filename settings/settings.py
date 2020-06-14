@@ -2,7 +2,6 @@ import pygame
 
 windowWidth, windowHeight = 850, 980
 
-# font = pygame.font.SysFont('lunchtimedoublysoregular', 20)
 # Import du background de l'appli 
 gameBackground = pygame.image.load('assets/backgrounds/bg.jpg')
 

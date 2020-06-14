@@ -10,45 +10,51 @@ class Package(pygame.sprite.Sprite):
         self.health = 1
         self.maxHealth = 1
         self.allEnemies = game.allEnemies
-        self.special = random.randint(0,10)
+        self.special = random.randint(0,9)
         self.image = pygame.image.load('./assets/airdrop.png')
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(50, 900)
         self.rect.y = -100
         self.speed = 1
-
+   
+    # Fonction permettant de supprimer un package 
     def remove(self):
         self.game.allPackages.remove(self) 
-
+    
+    # Fonction permettant au package de descendre et de le supprimer si il sort de l'écran
     def down(self):
         if  self.rect.y >= 700 :
             self.remove()
         else : 
             self.rect.y += self.speed
 
+    # Fonction permettant d'infliger les dégats du personnage au packages 
     def damage(self, amount):
         # Infliger les dégâts
         self.health -= amount
         # Vérifier si l'enemie est mort 
         if self.health <= 0:
-            if self.special == 0 or self.special == 1:
+            # Choix du bonus ou malus en fonction de la variable random special
+            # 30% de chance +1 SPEED
+            # 30% de chance +1 ATTACK
+            # 20% de chance -1 SPEED
+            # 20% de chance -0.1 ATTACK 
+            if self.special >= 0 and self.special <= 2:
                 self.game.shooter.movementSpeed += 1
                 print("SPEED +1")
-            elif self.special == 3 or self.special == 4: 
-                self.game.shooter.attack += 1
+            elif self.special > 2 or self.special <= 5: 
+                if self.game.shooter.attack < 3:
+                    self.game.shooter.attack += 1
                 print("ATTACK +1")
-            elif self.special == 6 :
+            elif self.special == 6 or self.special == 7:
                 if self.game.shooter.movementSpeed > 2 :
                     self.game.shooter.movementSpeed -= 1
                     print("SPEED -1")
-            elif self.special == 9 :
-                if self.game.shooter.attack > 0.5:
+            elif self.special == 8 or self.special == 9 :
+                if self.game.shooter.attack > 0.6:
                     self.game.shooter.attack -= 0.1
                     print("ATTACK -0.1")
-            # elif self.special >= 0  :
-            #     self.game.shooter.bullet.velocity += 1 
-            #     print("BULLET VELOCITY  = " + str(self.game.shooter.bullet.velocity))
             self.special = random.randint(0,9)
 
             # Suppression de l'entité

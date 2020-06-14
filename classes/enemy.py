@@ -33,22 +33,23 @@ class Enemy(pygame.sprite.Sprite):
         # Vérifier si l'enemie est mort 
         if self.health <= 0:
             choiceMonster = random.randint(0,2)
-            print("CHOICE MONSTER = "+ str(choiceMonster))
             if choiceMonster == 1:
                 secondMonster = pygame.image.load('./assets/flying_monster.png')
                 self.image = pygame.transform.scale(secondMonster,(90,90))
             
-            # Suppression de l'entité
-            self.rect.x = random.randint(50, 900)
-            self.rect.y = -100
+            
 
             self.game.score += 1
 
             # Boost d'un monstre lorsque le joueur atteint le score 50
-            if self.game.score == 50 :
+            if self.game.score >= 50 and self.game.score < 100:
+                self.speed += 0.5
+
+            if self.game.score >= 100 and self.game.score < 150: 
                 self.speed += 1
-            elif self.game.score == 100: 
-                self.speed += 1
+
+            if self.game.score >= 150:
+                self.speed += 1.5
             
             print("SCORE : " + str(self.game.score))
             if len(self.allEnemies) < 8:
@@ -57,4 +58,7 @@ class Enemy(pygame.sprite.Sprite):
                 self.remove()
                 self.game.spawnEnemy()
 
+            # Suppression de l'entité
+            self.rect.x = random.randint(50, 900)
+            self.rect.y = -100
             self.health = self.maxHealth

@@ -1,6 +1,6 @@
 1. Créer l'architecture du projet (1 fichier assets,....) FAIT
 2. Créer les class (Ball, Brick, Shooter) FAIT
-*. Créer les instructions d'utilisation du logiciel 
+*. Créer les instructions d'utilisation du logiciel FAIT
 
 
 

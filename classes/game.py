@@ -30,13 +30,10 @@ class Game:
         enemy = Enemy(self)
         package = Package(self)
         choiceEnemy = random.randint(1,10)
-        print('CHOICE ENEMY =' + str(choiceEnemy))
-        if choiceEnemy >= 0 and choiceEnemy <= 7:
+        if choiceEnemy >= 0 and choiceEnemy <= 8:
             self.allEnemies.add(enemy)
-        elif choiceEnemy > 7 and choiceEnemy <= 10:
+        elif choiceEnemy > 8 and choiceEnemy <= 10:
             self.allPackages.add(package)
-
-        # print(len(self.allEnemies))
 
     # def spawnPackage(self):
     #     package = Package(self)
