@@ -50,10 +50,6 @@ def main_menu():
 
         mx, my = pygame.mouse.get_pos()
 
-        
-
-        
-
         shadow_button1 = pygame.Rect(340, 160, 340, 50)
         shadow_button2 = pygame.Rect(340, 260, 340, 50)
         shadow_button3 = pygame.Rect(340, 360, 340, 50)
@@ -66,8 +62,6 @@ def main_menu():
         button_3 = pygame.Rect(330, 370, 340, 50)
 
         button_4 = pygame.Rect(330, 470, 340, 50)
-
-        
 
         if button_1.collidepoint((mx, my)):
             if click[0] == 1:
@@ -93,8 +87,6 @@ def main_menu():
         pygame.draw.rect(settings.screen, (44, 44, 84), button_2)
         pygame.draw.rect(settings.screen, (44, 44, 84), button_3)
         pygame.draw.rect(settings.screen, (44, 44, 84), button_4)
-
-        
 
         draw_text('Nouvelle partie', titleFont,
                   (255, 255, 255), settings.screen, 370, 180)
@@ -134,10 +126,12 @@ def shop():
 def game():
     pygame.mixer.music.play(-1)
     running = True
+    spawnBoss = 50
+    
     # Charger le jeu
     game = Game()
 
-    game.shooter.health= game.shooter.max_health
+    game.shooter.health = game.shooter.max_health
 
     if settings.loadingGame:
         load(game)
@@ -181,6 +175,16 @@ def game():
         for package in game.allPackages:
             package.down()
 
+        if game.score == spawnBoss: 
+            game.spawnBoss()
+            spawnBoss += 50
+            print("SORE SPAWNBOSS =" + str(game.score))
+            print("SPAWNBOSS = " + str(spawnBoss))
+            game.score += 1
+
+        for boss in game.allBosses:
+            boss.down()
+
         # Appliquer l'image des balles
         game.shooter.allBullet.draw(settings.screen)
 
@@ -190,21 +194,30 @@ def game():
         # Appliquer l'image des énemies
         game.allPackages.draw(settings.screen)
 
-        if game.pressed.get(pygame.K_LEFT):
-            if(game.shooter.rect.x < -100):
-                game.shooter.rect.x = 1000
-                game.shooter.move_left()
-            else:
-                game.shooter.move_left()
-        elif game.pressed.get(pygame.K_RIGHT):
-            if(game.shooter.rect.x > 1000):
-                game.shooter.rect.x = -100
-                game.shooter.move_right()
-            else:
-                game.shooter.move_right()
+        # Appliquer l'image des énemies
+        game.allBosses.draw(settings.screen)
+
+        # if game.pressed.get(pygame.K_LEFT):
+        #     if(game.shooter.rect.x < -100):
+        #         game.shooter.rect.x = 1000
+        #         game.shooter.move_left()
+        #     else:
+        #         game.shooter.move_left()
+        # elif game.pressed.get(pygame.K_RIGHT):
+        #     if(game.shooter.rect.x > 1000):
+        #         game.shooter.rect.x = -100
+        #         game.shooter.move_right()
+        #     else:
+        #         game.shooter.move_right()
+
+        if game.pressed.get(pygame.K_LEFT) and game.shooter.rect.x > -30:
+            game.shooter.move_left()
+        elif game.pressed.get(pygame.K_RIGHT) and game.shooter.rect.x  < 810:
+            game.shooter.move_right()
 
         if game.shooter.health <= 0:
             game_over()
+            
 
         # On parcours la liste d'evenement
         for event in pygame.event.get():
@@ -234,14 +247,10 @@ def load(game):
     with open('save.json') as json_file:
         data = json.load(json_file)
         for value in data['playerInformations']:
-            # print('Player Speed : ' + str(value['playerSpeed']))
-            # print('Player Attack : ' + str(value['playerAttack']))
             game.shooter.attack = value['playerAttack']
             game.shooter.movementSpeed = value['playerSpeed']
-            # print('')
         for value in data['partyInformations']:
             game.score = value['score']
-            # print('Score : ' + str(value['score']))
 
 
 def instructions():
@@ -301,9 +310,10 @@ def game_over():
 
         if button_1.collidepoint((mx, my)):
             if click[0] == 1:
+                settings.loadingGame = False
                 game()
         # pygame.draw.rect(settings.screen, (255, 0, 0), button_1)
-        pygame.draw.rect(settings.screen,(255, 77, 77), shadow_button1)
+        pygame.draw.rect(settings.screen, (255, 77, 77), shadow_button1)
         pygame.draw.rect(settings.screen, (255, 0, 0), button_1)
 
         draw_text('Reessayer', titleFont, (255, 255, 255),

@@ -3,6 +3,7 @@ import random
 from classes.shooter import Shooter
 from classes.enemy import Enemy
 from classes.package import Package
+from classes.boss import Boss
 
 
 class Game:
@@ -21,6 +22,9 @@ class Game:
         # Définition d'un groupe de package
         self.allPackages = pygame.sprite.Group()
 
+        # Définition d'un groupe de boss
+        self.allBosses = pygame.sprite.Group()
+
         self.pressed = {}
         self.spawnEnemy()
         # self.spawnPackage()
@@ -34,6 +38,11 @@ class Game:
             self.allEnemies.add(enemy)
         elif choiceEnemy > 8 and choiceEnemy <= 10:
             self.allPackages.add(package)
+
+    # Fonction qui gère le spawn des boss
+    def spawnBoss(self):
+        boss = Boss(self)
+        self.allBosses.add(boss)
 
     # def spawnPackage(self):
     #     package = Package(self)

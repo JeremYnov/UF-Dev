@@ -43,6 +43,11 @@ class Bullet(pygame.sprite.Sprite):
             # Infliger les dégats 
             package.damage(self.shooter.attack)    
 
+        for boss in self.shooter.game.checkCollision(self,self.shooter.game.allBosses) :
+            self.remove()
+            # Infliger les dégâts 
+            boss.damage(self.shooter.attack)
+
         # Vérifier si le projectile n'est plus présent sur l'écran 
         if self.rect.y < 5:
             self.remove()
