@@ -13,6 +13,7 @@ menuBackground = pygame.transform.scale(menuBackground, (windowHeight, windowWid
 gameOverBackground = pygame.image.load('assets/backgrounds/game_over_bg.jpg')
 gameOverBackground = pygame.transform.scale(gameOverBackground, (windowHeight, windowWidth))
 
+loadingGame = False
 
 # Taille de l'écran
 screen = pygame.display.set_mode((windowHeight,windowWidth))

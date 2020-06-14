@@ -13,6 +13,7 @@ class Shooter(pygame.sprite.Sprite):
         super().__init__()
         self.game = game
         self.health = 1
+        self.max_health = 1
         self.attack = 1
         self.allBullet = pygame.sprite.Group()
         self.movementSpeed = 3

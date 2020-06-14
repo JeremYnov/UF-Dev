@@ -50,32 +50,60 @@ def main_menu():
 
         mx, my = pygame.mouse.get_pos()
 
-        button_1 = pygame.Rect(360, 170, 295, 50)
+        
 
-        button_2 = pygame.Rect(360, 270, 295, 50)
+        
 
-        button_3 = pygame.Rect(360, 370, 295, 50)
+        shadow_button1 = pygame.Rect(340, 160, 340, 50)
+        shadow_button2 = pygame.Rect(340, 260, 340, 50)
+        shadow_button3 = pygame.Rect(340, 360, 340, 50)
+        shadow_button4 = pygame.Rect(340, 460, 340, 50)
+
+        button_1 = pygame.Rect(330, 170, 340, 50)
+
+        button_2 = pygame.Rect(330, 270, 340, 50)
+
+        button_3 = pygame.Rect(330, 370, 340, 50)
+
+        button_4 = pygame.Rect(330, 470, 340, 50)
+
+        
 
         if button_1.collidepoint((mx, my)):
             if click[0] == 1:
                 game()
+
         if button_2.collidepoint((mx, my)):
             if click[0] == 1:
-                instructions()
+                settings.loadingGame = True
+                game()
         if button_3.collidepoint((mx, my)):
             if click[0] == 1:
                 instructions()
+        if button_4.collidepoint((mx, my)):
+            if click[0] == 1:
+                instructions()
 
-        pygame.draw.rect(settings.screen, (255, 0, 0), button_1)
-        pygame.draw.rect(settings.screen, (255, 0, 0), button_2)
-        pygame.draw.rect(settings.screen, (255, 0, 0), button_3)
+        pygame.draw.rect(settings.screen, (64, 64, 122), shadow_button1)
+        pygame.draw.rect(settings.screen, (64, 64, 122), shadow_button2)
+        pygame.draw.rect(settings.screen, (64, 64, 122), shadow_button3)
+        pygame.draw.rect(settings.screen, (64, 64, 122), shadow_button4)
 
-        draw_text('Lancer la partie', titleFont,
+        pygame.draw.rect(settings.screen, (44, 44, 84), button_1)
+        pygame.draw.rect(settings.screen, (44, 44, 84), button_2)
+        pygame.draw.rect(settings.screen, (44, 44, 84), button_3)
+        pygame.draw.rect(settings.screen, (44, 44, 84), button_4)
+
+        
+
+        draw_text('Nouvelle partie', titleFont,
                   (255, 255, 255), settings.screen, 370, 180)
-        draw_text('Options', titleFont, (255, 255, 255),
-                  settings.screen, 370, 280)
+        draw_text('Charger la partie', titleFont,
+                  (255, 255, 255), settings.screen, 370, 280)
         draw_text('Instructions', titleFont,
                   (255, 255, 255), settings.screen, 370, 380)
+        draw_text('Options', titleFont, (255, 255, 255),
+                  settings.screen, 370, 480)
 
         click = False
         for event in pygame.event.get():
@@ -104,13 +132,15 @@ def shop():
 
 
 def game():
-
     pygame.mixer.music.play(-1)
     running = True
-
     # Charger le jeu
     game = Game()
-    load()
+
+    game.shooter.health= game.shooter.max_health
+
+    if settings.loadingGame:
+        load(game)
     # Boucle qui nous permet de garder le jeu allumé
     while running:
 
@@ -190,6 +220,7 @@ def game():
                     game.shooter.shoot()
                 elif event.key == pygame.K_ESCAPE:
                     save(data)
+                    main_menu()
                     running = False
             elif event.type == pygame.KEYUP:
                 game.pressed[event.key] = False
@@ -199,15 +230,18 @@ def game():
         mainClock.tick(60)
 
 
-def load():
+def load(game):
     with open('save.json') as json_file:
         data = json.load(json_file)
         for value in data['playerInformations']:
-            print('Player Speed : ' + str(value['playerSpeed']))
-            print('Player Attack : ' + str(value['playerAttack']))
-            print('')
+            # print('Player Speed : ' + str(value['playerSpeed']))
+            # print('Player Attack : ' + str(value['playerAttack']))
+            game.shooter.attack = value['playerAttack']
+            game.shooter.movementSpeed = value['playerSpeed']
+            # print('')
         for value in data['partyInformations']:
-            print('Score : ' + str(value['score']))
+            game.score = value['score']
+            # print('Score : ' + str(value['score']))
 
 
 def instructions():
@@ -262,12 +296,16 @@ def game_over():
 
         mx, my = pygame.mouse.get_pos()
 
+        shadow_button1 = pygame.Rect(370, 560, 295, 50)
         button_1 = pygame.Rect(360, 570, 295, 50)
 
         if button_1.collidepoint((mx, my)):
             if click[0] == 1:
                 game()
+        # pygame.draw.rect(settings.screen, (255, 0, 0), button_1)
+        pygame.draw.rect(settings.screen,(255, 77, 77), shadow_button1)
         pygame.draw.rect(settings.screen, (255, 0, 0), button_1)
+
         draw_text('Reessayer', titleFont, (255, 255, 255),
                   settings.screen, 435, 580)
 
