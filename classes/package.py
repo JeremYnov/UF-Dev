@@ -41,20 +41,21 @@ class Package(pygame.sprite.Sprite):
             # 20% de chance -1 SPEED
             # 20% de chance -0.1 ATTACK 
             if self.special >= 0 and self.special <= 2:
-                self.game.shooter.movementSpeed += 1
-                print("SPEED +1")
+                if self.game.shooter.movementSpeed < 10:
+                    self.game.shooter.movementSpeed += 1
+                    print("SPEED +1")
             elif self.special > 2 and self.special <= 5: 
                 if self.game.shooter.attack < 3:
                     self.game.shooter.attack += 1
-                print("ATTACK +1")
+                    print("ATTACK +1")
             elif self.special > 5 and self.special <= 7:
-                # if self.game.shooter.movementSpeed > 2 :
-                self.game.shooter.movementSpeed -= 1
-                print("SPEED -1")
+                if self.game.shooter.movementSpeed > 2 :
+                    self.game.shooter.movementSpeed -= 1
+                    print("SPEED -1")
             elif self.special > 7 and self.special <= 9 :
-                # if self.game.shooter.attack > 0.6:
-                self.game.shooter.attack -= 0.1
-                print("ATTACK -0.1")
+                if self.game.shooter.attack > 0.6 :
+                    self.game.shooter.attack -= 0.1
+                    print("ATTACK -0.1")
 
             self.special = random.randint(0,9)
             print(self.special)
