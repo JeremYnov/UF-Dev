@@ -212,7 +212,9 @@ def game():
 
         if game.pressed.get(pygame.K_LEFT) and game.shooter.rect.x > -30:
             game.shooter.move_left()
-        elif game.pressed.get(pygame.K_RIGHT) and game.shooter.rect.x  < 810:
+        # elif game.pressed.get(pygame.K_RIGHT) and game.shooter.rect.x  < 810:
+        #   Pour Léo
+        elif game.pressed.get(pygame.K_END) and game.shooter.rect.x  < 810:
             game.shooter.move_right()
 
         if game.shooter.health <= 0:

@@ -1,6 +1,8 @@
 import pygame 
 
-windowWidth, windowHeight = 850, 980
+# windowWidth, windowHeight = 850, 980
+# pour Léo 
+windowWidth, windowHeight = 650, 980
 
 # Import du background de l'appli 
 gameBackground = pygame.image.load('assets/backgrounds/bg.jpg')
