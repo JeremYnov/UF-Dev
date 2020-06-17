@@ -239,7 +239,7 @@ def game():
             game.shooter.move_right()
 
         if game.shooter.health <= 0:
-            game_over()
+            game_over(game.score)
 
         # On parcours la liste d'evenement
         for event in pygame.event.get():
@@ -274,13 +274,6 @@ def shop(game):
             tokens = value['tokens']
 
     while running:
-        
-
-        # tokens = game.score + tokens
-        # data = {}
-        # data['playerInformations'] = []
-        # data['playerInformations'].append({"tokens": tokens})
-
         addStat = pygame.mouse.get_pressed()
         mx, my = pygame.mouse.get_pos()
         settings.screen.fill((0, 0, 0))
@@ -450,7 +443,7 @@ def instructions():
         mainClock.tick(60)
 
 
-def game_over():
+def game_over(score):
     gameOverSound = pygame.mixer.Sound("assets/sounds/game_over.ogg")
     gameOverSound.set_volume(0.1)
     gameOverSound.play()
@@ -461,7 +454,8 @@ def game_over():
         settings.screen.blit(settings.gameOverBackground, (0, 0))
         # settings.screen.fill((0,0,0))
 
-        draw_text('GAME OVER', fontgo, (255, 0, 0), settings.screen, 300, 200)
+        draw_text('GAME OVER', fontgo, (255, 0, 0), settings.screen, 300, 100)
+        draw_text('SCORE :' + str(score), titleFont, (255, 255, 255), settings.screen, 400, 200)
         draw_text("Tu t'es battu de toutes tes forces,", font,
                   (255, 255, 255), settings.screen, 310, 300)
         draw_text("mais cela n'a pas suffit.", font,
