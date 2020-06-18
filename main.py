@@ -220,19 +220,6 @@ def game():
         # Appliquer l'image des énemies
         game.allBosses.draw(settings.screen)
 
-        # if game.pressed.get(pygame.K_LEFT):
-        #     if(game.shooter.rect.x < -100):
-        #         game.shooter.rect.x = 1000
-        #         game.shooter.move_left()
-        #     else:
-        #         game.shooter.move_left()
-        # elif game.pressed.get(pygame.K_RIGHT):
-        #     if(game.shooter.rect.x > 1000):
-        #         game.shooter.rect.x = -100
-        #         game.shooter.move_right()
-        #     else:
-        #         game.shooter.move_right()
-
         if game.pressed.get(pygame.K_LEFT) and game.shooter.rect.x > -30:
             game.shooter.move_left()
         elif game.pressed.get(pygame.K_RIGHT) and game.shooter.rect.x < 810:
@@ -274,7 +261,7 @@ def shop(game):
             tokens = value['tokens']
 
     while running:
-        addStat = pygame.mouse.get_pressed()
+        click = pygame.mouse.get_pressed()
         mx, my = pygame.mouse.get_pos()
         settings.screen.fill((0, 0, 0))
 
@@ -313,6 +300,11 @@ def shop(game):
         button_4 = pygame.Rect(820, 450, 70, 70)
         pygame.draw.rect(settings.screen, (44, 0, 84), button_4)
 
+        shadow_button5 = pygame.Rect(610, 700, 340, 50)
+        pygame.draw.rect(settings.screen, (64, 64, 122), shadow_button5)
+        button_5 = pygame.Rect(600, 710, 340, 50)
+        pygame.draw.rect(settings.screen, (44, 44, 84), button_5)
+
         speed_icon = pygame.image.load('./assets/shop/speed.png')
         speed_icon = pygame.transform.scale(speed_icon, (120, 120))
         settings.screen.blit(speed_icon, (180, 310))
@@ -348,11 +340,14 @@ def shop(game):
 
         draw_text('Credits : '+ str(tokens), titleFont, (255, 255, 255),
                   settings.screen, 380, 120)
+
+        draw_text('Lancer la partie', titleFont, (255, 255, 255),
+                  settings.screen, 640, 720)
         
 
 
         if button_1.collidepoint((mx, my)):
-            if addStat[0] == 1:
+            if click[0] == 1:
                 if game.shooter.movementSpeed > 3 :
                     tokens += 100
                     data['partyTokens'].pop(0)
@@ -361,7 +356,7 @@ def shop(game):
                     game.shooter.movementSpeed -= 1
                     time.sleep(0.5)
         if button_2.collidepoint((mx, my)):
-            if addStat[0] == 1:
+            if click[0] == 1:
                 if game.shooter.movementSpeed < 10 and tokens >= 100:
                     tokens -= 100
                     data['partyTokens'].pop(0)
@@ -370,7 +365,7 @@ def shop(game):
                     game.shooter.movementSpeed += 1
                     time.sleep(0.5)
         if button_3.collidepoint((mx, my)):
-            if addStat[0] == 1:
+            if click[0] == 1:
                 if game.shooter.attack > 1 :
                     tokens += 100
                     data['partyTokens'].pop(0)
@@ -379,7 +374,7 @@ def shop(game):
                     game.shooter.attack -= 1
                     time.sleep(0.5)
         if button_4.collidepoint((mx, my)):
-            if addStat[0] == 1:
+            if click[0] == 1:
                 if game.shooter.attack < 4 and tokens >= 100:
                     tokens -= 100
                     data['partyTokens'].pop(0)
@@ -387,6 +382,10 @@ def shop(game):
                     save(data)
                     game.shooter.attack += 1
                     time.sleep(0.5)
+        if button_5.collidepoint((mx, my)):
+            if click[0] == 1:
+                settings.shopping = False
+                running = False
 
 
         for event in pygame.event.get():
