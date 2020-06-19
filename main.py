@@ -32,9 +32,6 @@ def draw_text(text, font, color, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
-
-# running = True
-
 # Génération de notre fenêtre de jeu
 pygame.display.set_caption("UFO Abduction")
 pygame.display.set_icon(settings.icon)
@@ -46,7 +43,6 @@ def main_menu():
         click = pygame.mouse.get_pressed()
 
         settings.screen.blit(settings.menuBackground, (0, 0))
-        # settings.screen.fill((0,0,0))
         draw_text('Menu Principal', titleFont,
                   (255, 255, 255), settings.screen, 390, 20)
 
@@ -146,8 +142,11 @@ def game():
     if settings.shopping:
         running == False
         shop(game)
+
     if settings.loadingGame:
         load(game)
+        settings.loadingGame = False
+
     # Boucle qui nous permet de garder le jeu allumé
     while running:
 
@@ -220,19 +219,6 @@ def game():
         # Appliquer l'image des énemies
         game.allBosses.draw(settings.screen)
 
-        # if game.pressed.get(pygame.K_LEFT):
-        #     if(game.shooter.rect.x < -100):
-        #         game.shooter.rect.x = 1000
-        #         game.shooter.move_left()
-        #     else:
-        #         game.shooter.move_left()
-        # elif game.pressed.get(pygame.K_RIGHT):
-        #     if(game.shooter.rect.x > 1000):
-        #         game.shooter.rect.x = -100
-        #         game.shooter.move_right()
-        #     else:
-        #         game.shooter.move_right()
-
         if game.pressed.get(pygame.K_LEFT) and game.shooter.rect.x > -30:
             game.shooter.move_left()
         # elif game.pressed.get(pygame.K_RIGHT) and game.shooter.rect.x  < 810:
@@ -241,7 +227,7 @@ def game():
             game.shooter.move_right()
 
         if game.shooter.health <= 0:
-            game_over()
+            game_over(game.score)
 
         # On parcours la liste d'evenement
         for event in pygame.event.get():
@@ -276,14 +262,7 @@ def shop(game):
             tokens = value['tokens']
 
     while running:
-        
-
-        # tokens = game.score + tokens
-        # data = {}
-        # data['playerInformations'] = []
-        # data['playerInformations'].append({"tokens": tokens})
-
-        addStat = pygame.mouse.get_pressed()
+        click = pygame.mouse.get_pressed()
         mx, my = pygame.mouse.get_pos()
         settings.screen.fill((0, 0, 0))
 
@@ -322,6 +301,11 @@ def shop(game):
         button_4 = pygame.Rect(820, 450, 70, 70)
         pygame.draw.rect(settings.screen, (44, 0, 84), button_4)
 
+        shadow_button5 = pygame.Rect(610, 700, 340, 50)
+        pygame.draw.rect(settings.screen, (64, 64, 122), shadow_button5)
+        button_5 = pygame.Rect(600, 710, 340, 50)
+        pygame.draw.rect(settings.screen, (44, 44, 84), button_5)
+
         speed_icon = pygame.image.load('./assets/shop/speed.png')
         speed_icon = pygame.transform.scale(speed_icon, (120, 120))
         settings.screen.blit(speed_icon, (180, 310))
@@ -357,11 +341,14 @@ def shop(game):
 
         draw_text('Credits : '+ str(tokens), titleFont, (255, 255, 255),
                   settings.screen, 380, 120)
+
+        draw_text('Lancer la partie', titleFont, (255, 255, 255),
+                  settings.screen, 640, 720)
         
 
 
         if button_1.collidepoint((mx, my)):
-            if addStat[0] == 1:
+            if click[0] == 1:
                 if game.shooter.movementSpeed > 3 :
                     tokens += 100
                     data['partyTokens'].pop(0)
@@ -370,7 +357,7 @@ def shop(game):
                     game.shooter.movementSpeed -= 1
                     time.sleep(0.5)
         if button_2.collidepoint((mx, my)):
-            if addStat[0] == 1:
+            if click[0] == 1:
                 if game.shooter.movementSpeed < 10 and tokens >= 100:
                     tokens -= 100
                     data['partyTokens'].pop(0)
@@ -379,7 +366,7 @@ def shop(game):
                     game.shooter.movementSpeed += 1
                     time.sleep(0.5)
         if button_3.collidepoint((mx, my)):
-            if addStat[0] == 1:
+            if click[0] == 1:
                 if game.shooter.attack > 1 :
                     tokens += 100
                     data['partyTokens'].pop(0)
@@ -388,7 +375,7 @@ def shop(game):
                     game.shooter.attack -= 1
                     time.sleep(0.5)
         if button_4.collidepoint((mx, my)):
-            if addStat[0] == 1:
+            if click[0] == 1:
                 if game.shooter.attack < 4 and tokens >= 100:
                     tokens -= 100
                     data['partyTokens'].pop(0)
@@ -396,12 +383,15 @@ def shop(game):
                     save(data)
                     game.shooter.attack += 1
                     time.sleep(0.5)
+        if button_5.collidepoint((mx, my)):
+            if click[0] == 1:
+                settings.shopping = False
+                running = False
 
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                # sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     settings.shopping = False
@@ -443,7 +433,6 @@ def instructions():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                # sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
@@ -452,7 +441,7 @@ def instructions():
         mainClock.tick(60)
 
 
-def game_over():
+def game_over(score):
     gameOverSound = pygame.mixer.Sound("assets/sounds/game_over.ogg")
     gameOverSound.set_volume(0.1)
     gameOverSound.play()
@@ -463,7 +452,8 @@ def game_over():
         settings.screen.blit(settings.gameOverBackground, (0, 0))
         # settings.screen.fill((0,0,0))
 
-        draw_text('GAME OVER', fontgo, (255, 0, 0), settings.screen, 300, 200)
+        draw_text('GAME OVER', fontgo, (255, 0, 0), settings.screen, 300, 100)
+        draw_text('SCORE :' + str(score), titleFont, (255, 255, 255), settings.screen, 400, 200)
         draw_text("Tu t'es battu de toutes tes forces,", font,
                   (255, 255, 255), settings.screen, 310, 300)
         draw_text("mais cela n'a pas suffit.", font,

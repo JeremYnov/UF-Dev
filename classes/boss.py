@@ -17,6 +17,7 @@ class Boss(pygame.sprite.Sprite):
         self.rect.y = -300
         self.speed = 1.5
 
+    # Fonction de descente du boss 
     def down(self):
         if self.game.checkCollision(self,self.game.allShooters) or self.rect.y >= 700 :
             self.game.shooter.health = 0 
@@ -24,6 +25,7 @@ class Boss(pygame.sprite.Sprite):
         else : 
             self.rect.y += self.speed
 
+    # Fonction qui permet de détruire le boss si il meurt
     def remove(self):
         self.game.allBosses.remove(self) 
 
@@ -35,10 +37,12 @@ class Boss(pygame.sprite.Sprite):
         if self.health <= 0:
             self.game.score += 10
             
-            print("SCORE : " + str(self.game.score))
+            # print("SCORE : " + str(self.game.score))
+
+            # Destruction du boss
             self.remove()
 
             # Suppression de l'entité
-            self.rect.x = random.randint(50, 900)
+            self.rect.x = random.randint(50, 800)
             self.rect.y = -300
             self.health = self.maxHealth
