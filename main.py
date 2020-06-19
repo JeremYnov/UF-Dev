@@ -32,9 +32,6 @@ def draw_text(text, font, color, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
-
-# running = True
-
 # Génération de notre fenêtre de jeu
 pygame.display.set_caption("UFO Abduction")
 pygame.display.set_icon(settings.icon)
@@ -46,7 +43,6 @@ def main_menu():
         click = pygame.mouse.get_pressed()
 
         settings.screen.blit(settings.menuBackground, (0, 0))
-        # settings.screen.fill((0,0,0))
         draw_text('Menu Principal', titleFont,
                   (255, 255, 255), settings.screen, 390, 20)
 
@@ -146,8 +142,11 @@ def game():
     if settings.shopping:
         running == False
         shop(game)
+
     if settings.loadingGame:
         load(game)
+        settings.loadingGame = False
+
     # Boucle qui nous permet de garder le jeu allumé
     while running:
 
@@ -391,7 +390,6 @@ def shop(game):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                # sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     settings.shopping = False
@@ -433,7 +431,6 @@ def instructions():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                # sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
