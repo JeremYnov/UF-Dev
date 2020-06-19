@@ -5,7 +5,8 @@ import pygame
 windowWidth, windowHeight = 650, 980
 
 # Import du background de l'appli 
-gameBackground = pygame.image.load('assets/backgrounds/bg.jpg')
+# gameBackground = pygame.image.load('assets/backgrounds/bg.jpg')
+gameBackground = pygame.image.load('assets/backgrounds/game-background.jpg')
 
 # Import du background du menu 
 menuBackground = pygame.image.load('assets/backgrounds/menu_bg.jpg')
@@ -16,6 +17,8 @@ gameOverBackground = pygame.image.load('assets/backgrounds/game_over_bg.jpg')
 gameOverBackground = pygame.transform.scale(gameOverBackground, (windowHeight, windowWidth))
 
 loadingGame = False
+
+shopping = False
 
 # Taille de l'écran
 screen = pygame.display.set_mode((windowHeight,windowWidth))
